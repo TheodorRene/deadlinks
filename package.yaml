@@ -21,16 +21,14 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
-- req
+- req <= 3.8.0
 - bytestring
-- modern-uri
+- modern-uri <= 0.3.3.1
 - text
-- aeson
+- aeson <= 1.5.5.1
 
 library:
   source-dirs: src
-  default-extension:
-    - FlexibleContexts
 
 executables:
   deadlinks-exe:
