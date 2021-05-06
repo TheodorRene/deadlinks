@@ -13,12 +13,30 @@ import GHC.Generics
 import Network.HTTP.Req
 import qualified Data.ByteString.Char8 as B
 import qualified Text.URI as URI
+import Text.ParserCombinators.ReadP
+import Control.Applicative((<|>))
 
-main = doReq (Url' "vg.no") >>= print
+main = getStatusCode (Url' "vg.no") >>= print
 
 newtype Url' = Url' Text
 
-doReq :: Url' -> IO Int
-doReq (Url' url) = runReq defaultHttpConfig $ do 
+getStatusCode :: Url' -> IO Int
+getStatusCode (Url' url) = runReq defaultHttpConfig $ do 
     bs <- req GET (https url) NoReqBody bsResponse mempty
     return (responseStatusCode bs)
+
+isStartKlamme :: Char -> Bool
+isStartKlamme char = char == '['
+
+isSluttKlamme :: Char -> Bool
+isSluttKlamme char = char == ']'
+
+startklamme :: ReadP Char
+startklamme = satisfy isStartKlamme
+
+stopklamme :: ReadP Char
+stopklamme = satisfy isSluttKlamme
+
+parseBetween :: ReadP String
+parseBetween = between (char '[') (char ']') (many get)
+
