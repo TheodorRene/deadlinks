@@ -22,7 +22,7 @@ import qualified Text.URI as U
 main = do
     content <- readFile "markdown_test.md" 
     let links2 = getLinks $ pack content
-    let links = getURIs (getLinks s)
+    let links = getURIs (getLinks $ pack content)
     x <- mapM getStatusCode links
     print x 
 
@@ -54,7 +54,7 @@ singleLink = "https://vg.no/hei?gurba=hei"::Text
 s :: Text
 s = " [A History of Haskell: being lazy with class](https://vg.no)\
 \ The Beginning: The Eugenio Moggi Papers\
-\- [Notions of Computations over Monads](https://hvorlengeerdettil.uka.no/asdasd)\
+\- [Notions of Computations over Monads](https://gurbanguli.uka.no/asdasd)\
 \- [Computational Lambda Calculus and Monads](https://www.disi.unige.it/person/MoggiE/ftp/lics89.pdf)\
 \- [Monads for functional programming](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)\
 \- [The essence of functional programming](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.41.9361&rep=rep1&type=pdf)\\"
