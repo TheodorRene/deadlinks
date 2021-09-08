@@ -26,6 +26,7 @@ dependencies:
 - modern-uri <= 0.3.3.1
 - text
 - aeson <= 1.5.5.1
+- cmark <= 0.6
 
 library:
   source-dirs: src
