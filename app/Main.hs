@@ -26,22 +26,9 @@ main = do
     x <- mapM getStatusCode links
     print x 
 
-links = getURIs (getLinks s)
+getURIs =  mapMaybe getHttpsURI
 
-stuff = readFile "markdown_test.md"
-
-stripHTTP = stripPrefix "http://"
-stripHTTPS = stripPrefix "https://"
-
-stripScheme z = case f z of
-                    (Just x, _) -> x
-                    (_ , Just x) -> x
-                    (_ , _) -> z
-                where f = \x -> (stripHTTPS x, stripHTTP x)
-    
-
-getURIs x =  mapMaybe useHttpsURI (mapMaybe (U.mkURI::Text -> Maybe U.URI) x)
-
+getHttpsURI url = (U.mkURI::Text -> Maybe U.URI) url >>= useHttpsURI 
 
 getStatusCode (url,options) = runReq defaultHttpConfig{ httpConfigCheckResponse = \_ _ _ -> Nothing } $ do 
     bs <- req GET url NoReqBody bsResponse options
